@@ -75,7 +75,7 @@ public class AppTests {
                 .contains("프로그램이 종료되었습니다.");
     }
 
-    // 3단계
+    // 4단계
     @Test
     @DisplayName("등록할때 마다 생성되는 명언번호가 1씩 증가")
     public void t6() {
@@ -92,5 +92,30 @@ public class AppTests {
                 .contains("1번 명언이 등록되었습니다.")
                 .contains("2번 명언이 등록되었습니다.")
                 .doesNotContain("3번 명언이 등록되었습니다.");
+    }
+
+    // 3단계
+    @Test
+    @DisplayName("목록기능 구현")
+    public void t7() {
+        String rs = AppTestRunner.run("""
+                등록
+                현재를 사랑하라.
+                작자미상
+                등록
+                나의 죽음을 적에게 알리지 마라.
+                이순신
+                등록
+                삶이 있는 한 희망은 있다.
+                키케로
+                목록
+                """);
+
+        assertThat(rs)
+                .contains("번호 / 작가 / 명언")
+                .contains("-".repeat(30))
+                .contains("3 / 키케로 / 삶이 있는 한 희망은 있다.")
+                .contains("2 / 이순신 / 나의 죽음을 적에게 알리지 마라")
+                .contains("1 / 작자미상 / 현재를 사랑하라.");
     }
 }
