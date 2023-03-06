@@ -37,5 +37,41 @@ public class AppTests {
     // 테스트유틸 테스트 끝
 
     // 앱 테스트 시작
-    
+    @Test
+    @DisplayName("프로그램 시작 시 타이틀 출력과 종료가 정상적으로 되는가")
+    public void t3() {
+        Scanner sc = TestUtil.genScanner("종료");
+        ByteArrayOutputStream output = TestUtil.setOutToByteArray();
+
+        new App(sc).run(); // 어플 시작
+
+        String rs = output.toString();
+        TestUtil.clearSetOutToByteArray(output);
+
+        assertThat(rs)
+                .contains("== 명언 앱 ==")
+                .contains("명령) ")
+                .contains("프로그램이 종료되었습니다.")
+                .doesNotContain("올바르지 않은 명령입니다.");
+    }
+
+    @Test
+    @DisplayName("잘못 입력한 명령어에 대한 처리")
+    public void t4() {
+        Scanner sc = TestUtil.genScanner("""
+                종료2
+                종료                
+                """.stripIndent());
+        ByteArrayOutputStream output = TestUtil.setOutToByteArray();
+
+        new App(sc).run(); // 어플 시작
+
+        String rs = output.toString();
+        TestUtil.clearSetOutToByteArray(output);
+
+        assertThat(rs)
+                .contains("올바르지 않은 명령입니다.");
+    }
+
+
 }
